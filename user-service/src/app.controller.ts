@@ -6,7 +6,7 @@ import { delay } from "rxjs/operators";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
   @MessagePattern({ cmd: "ping" })
   ping(_: any) {
