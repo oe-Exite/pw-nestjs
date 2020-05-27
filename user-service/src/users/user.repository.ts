@@ -23,6 +23,7 @@ export class UserRepository extends Repository<User> {
         user.id = id;
         user.name = name;
         user.email = email;
+        user.balance = 500;
         await user.save();
     
         return user;

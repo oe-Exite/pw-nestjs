@@ -2,11 +2,12 @@ import { Repository, EntityRepository } from 'typeorm';
 import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { AuthUser } from './auth.entity';
-import { AuthCredentialsDto } from './auth-credentials.dto';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { AuthSigninDto } from './dto/auth-signin.dto';
 
 @EntityRepository(AuthUser)
 export class AuthRepository extends Repository<AuthUser> {
-    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<AuthUser> {
         const { name, email, password } = authCredentialsDto;
 
         const user = new AuthUser();
@@ -18,17 +19,19 @@ export class AuthRepository extends Repository<AuthUser> {
         try {
             await user.save();
         } catch (error) {
-            if (error.code === '23505') { // duplicate username
+            console.log('signUp catch', error.message);
+            if (error.message.includes('Violation of UNIQUE KEY')) {
                 throw new ConflictException('Username already exists');
             } else {
                 throw new InternalServerErrorException();
             }
         }
+        return user;
     }
 
-    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string> {
-        const { name, password } = authCredentialsDto;
-        const user = await this.findOne({ name });
+    async validateUserPassword(authSigninDto: AuthSigninDto): Promise<string> {
+        const { email, password } = authSigninDto;
+        const user = await this.findOne({ email });
 
         if (user && await user.validatePassword(password)) {
             return user.name;

@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryColumn, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { BaseEntity, Entity, PrimaryColumn, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 
 @Entity()
@@ -13,6 +13,9 @@ export class AuthUser extends BaseEntity {
 
     @Column()
     email: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
     @Column()
     password: string;
