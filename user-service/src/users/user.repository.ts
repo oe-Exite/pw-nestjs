@@ -1,15 +1,17 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "./user.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UsersListDto } from "./dto/users-list.dto";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-    async getUsers(search: string): Promise<User[]> {
+    async getUsers(usersListDto: UsersListDto): Promise<User[]> {
         const query = this.createQueryBuilder('user');
     
-        if (search) {
-          query.andWhere('(user.name LIKE :search)', { search: `%${search}%` });
+        if (usersListDto.search) {
+            query.andWhere('(user.name LIKE :search)', { search: `%${usersListDto.search}%` });
+            query.andWhere('(user.id != :userId)', { userId: `%${usersListDto.currentUserId}%` });
         }
     
         const users = await query.getMany();

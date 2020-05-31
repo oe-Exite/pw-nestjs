@@ -1,4 +1,4 @@
-export interface JwtPayload {
+export interface UserLookup {
     id: number;
     name: string;
 }

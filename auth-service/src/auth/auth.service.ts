@@ -33,15 +33,11 @@ export class AuthService {
 
     async signIn(authSigninDto: AuthSigninDto): Promise<{ accessToken: string }> {
         try {
-            const name = await this.authRepository.validateUserPassword(authSigninDto);
-
-            if (!name) {
+            const payload = await this.authRepository.validateUserPassword(authSigninDto);
+            if (!payload) {
                 throw new UnauthorizedException('Invalid credentials');
             }
-
-            const payload: JwtPayload = { name };
             const accessToken = this.jwtService.sign(payload);
-
             return { accessToken };
         } catch(e) {
             console.log('signIn catch', e);
@@ -58,7 +54,7 @@ export class AuthService {
         }
     }
 
-    async sendCreatedUser(user: AuthUser) {
+    private async sendCreatedUser(user: AuthUser) {
         const pattern = { role: 'user', cmd: 'create' };
         const { id, name, email, ...partialObject} = user;
         const payload = { id, name, email };

@@ -11,7 +11,6 @@ import { AuthService } from './auth.service';
         name: "USER_SERVICE",
         transport: Transport.TCP,
         options: {
-          // host: "127.0.0.1",
           port: 3001
         }
       },
@@ -19,13 +18,19 @@ import { AuthService } from './auth.service';
         name: "AUTH_SERVICE",
         transport: Transport.TCP,
         options: {
-          // host: "127.0.0.1",
           port: 3002
         }
       },
-    ])
+      {
+        name: "TRANSACTION_SERVICE",
+        transport: Transport.TCP,
+        options: {
+          port: 3003
+        }
+      },
+    ]),
   ],
   controllers: [AppController],
-  providers: [UserService, AuthService, UserService],
+  providers: [UserService, AuthService],
 })
 export class AppModule {}

@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthUser } from './auth.entity';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { AuthSigninDto } from './dto/auth-signin.dto';
+import { JwtPayload } from './dto/jwt-payload.dto';
 
 @EntityRepository(AuthUser)
 export class AuthRepository extends Repository<AuthUser> {
@@ -29,12 +30,12 @@ export class AuthRepository extends Repository<AuthUser> {
         return user;
     }
 
-    async validateUserPassword(authSigninDto: AuthSigninDto): Promise<string> {
+    async validateUserPassword(authSigninDto: AuthSigninDto): Promise<JwtPayload> {
         const { email, password } = authSigninDto;
         const user = await this.findOne({ email });
 
         if (user && await user.validatePassword(password)) {
-            return user.name;
+            return { id: user.id, name: user.name };
         } else {
             return null;
         }
