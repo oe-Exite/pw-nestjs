@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "a8d167ee-f814-4558-b1da-cf485427cd7d",
+		"name": "PW",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "test1",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@ar.ru",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Qwerty123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "ar@ar.ru",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Qwerty123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsIm5hbWUiOiJhemFtIiwiaWF0IjoxNTkxMDAzNzkxLCJleHAiOjE1OTEwMDczOTF9.NKE8RdSCajHg_qIQJ44uu5WYW1gsX_AmWK2oRk5NCrg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/user-info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user-info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-transactions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsIm5hbWUiOiJhbGV4MSIsImlhdCI6MTU5MTAxNDY2NiwiZXhwIjoxNTkxMDE4MjY2fQ.z-v8rsNCmjQSlWJyeGwqkjwptvmVcG9Pyqb_FwchRkU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/user-transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user-transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users-list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsIm5hbWUiOiJhbGV4MSIsImlhdCI6MTU5MTAxNDY2NiwiZXhwIjoxNTkxMDE4MjY2fQ.z-v8rsNCmjQSlWJyeGwqkjwptvmVcG9Pyqb_FwchRkU"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "search",
+							"value": "ale",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/users-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-balance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsIm5hbWUiOiJhbGV4MSIsImlhdCI6MTU5MTAxNDY2NiwiZXhwIjoxNTkxMDE4MjY2fQ.z-v8rsNCmjQSlWJyeGwqkjwptvmVcG9Pyqb_FwchRkU"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"toUserId\": 5,\r\n    \"amount\": 150\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/update-balance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"update-balance"
+					]
+				},
+				"description": "Body задавать в raw, чтоб int посылать"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

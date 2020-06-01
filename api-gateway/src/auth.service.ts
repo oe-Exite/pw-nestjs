@@ -3,8 +3,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { AuthSigninDto } from './dto/auth-signin.dto';
 import { tap, map, catchError } from 'rxjs/operators';
-import { ResultMessage } from './dto/result-message.interface';
-import { AuthResult } from './dto/auth-result.interface';
+import { ResultMessage } from './interfaces/result-message.interface';
+import { AuthResult } from './interfaces/auth-result.interface';
 import { throwError } from 'rxjs';
 
 @Injectable()
@@ -39,7 +39,6 @@ export class AuthService {
                     console.log('catchError', err);
                     return throwError(err);
                 })
-                //map((message: string) => ({ message }))
             ).toPromise();
     }
 }

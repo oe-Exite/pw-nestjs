@@ -7,8 +7,8 @@ import { UpdateUserBalanceDto } from "./dto/update-user-balance.dto";
 import { ClientProxy } from "@nestjs/microservices";
 import { map, tap, catchError } from "rxjs/operators";
 import { TimeoutError, throwError } from "rxjs";
-import { CreateTransaction } from './dto/create-transaction.interface';
-import { Transaction } from "./dto/transaction.interface";
+import { CreateTransaction } from './interfaces/create-transaction.interface';
+import { Transaction } from "./interfaces/transaction.interface";
 import { UsersListDto } from "./dto/users-list.dto";
 
 @Injectable()
@@ -39,14 +39,20 @@ export class UsersService {
     }
 
     async updateUserBalance(updateUserBalanceDto: UpdateUserBalanceDto): Promise<Transaction> {
-        const fromUser = await this.getUserById(updateUserBalanceDto.fromUserId);
-        if (fromUser && fromUser.balance < updateUserBalanceDto.amount) {
-            throw new BadRequestException('balance exceeded');
-        }
-        const toUser = await this.getUserById(updateUserBalanceDto.toUserId);
-        fromUser.balance -= updateUserBalanceDto.amount;
-        toUser.balance += updateUserBalanceDto.amount;
         try {
+            if (updateUserBalanceDto.fromUserId === updateUserBalanceDto.toUserId) {
+                throw new BadRequestException('fromUserId must differ from toUserId');
+            }
+            if (updateUserBalanceDto.amount < 1) {
+                throw new BadRequestException('amount must be > 0');
+            }
+            const fromUser = await this.getUserById(updateUserBalanceDto.fromUserId);
+            if (fromUser && fromUser.balance < updateUserBalanceDto.amount) {
+                throw new BadRequestException('balance exceeded');
+            }
+            const toUser = await this.getUserById(updateUserBalanceDto.toUserId);
+            fromUser.balance -= updateUserBalanceDto.amount;
+            toUser.balance += updateUserBalanceDto.amount;
             await this.userRepository.updateUserBalance(fromUser, toUser);
             return this.sendNewTransaction(fromUser, toUser, updateUserBalanceDto.amount);
         } catch(e) {

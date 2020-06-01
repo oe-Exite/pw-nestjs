@@ -20,11 +20,14 @@ export class AuthService {
         private userMicroService: ClientProxy
     ) {}
 
-    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
         try {
             const user = await this.authRepository.signUp(authCredentialsDto);
             console.log('signUp user', user);
             await this.sendCreatedUser(user);
+            const payload: JwtPayload = { id: user.id, name: user.name };
+            const accessToken = this.jwtService.sign(payload);
+            return { accessToken };
         } catch(e) {
             console.log('signUp catch', e);
             return e;
@@ -70,7 +73,6 @@ export class AuthService {
                     }
                     return throwError(err);
                 })
-                //map((message: string) => ({ message }))
             ).toPromise()
             .catch((e) => {
                 console.log('catch promise', e);

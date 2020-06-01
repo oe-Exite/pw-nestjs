@@ -2,7 +2,8 @@ import { BaseEntity, Entity, PrimaryColumn, Column, PrimaryGeneratedColumn, Uniq
 import * as bcrypt from 'bcrypt';
 
 @Entity()
-@Unique(['name', 'email'])
+@Unique(['name'])
+@Unique(['email'])
 export class AuthUser extends BaseEntity {
 
     @PrimaryGeneratedColumn()

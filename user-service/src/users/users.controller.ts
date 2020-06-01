@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UpdateUserBalanceDto } from './dto/update-user-balance.dto';
-import { Transaction } from './dto/transaction.interface';
+import { Transaction } from './interfaces/transaction.interface';
 import { UsersListDto } from './dto/users-list.dto';
 
 @Controller()
@@ -26,11 +26,13 @@ export class UsersController {
 
     @MessagePattern({ role: 'user', cmd: 'list' })
     getUsers(usersListDto: UsersListDto): Promise<User[]> {
+        console.log('getUsers', usersListDto);
         return this.usersService.getUsers(usersListDto);
     }
 
     @MessagePattern({ role: 'user', cmd: 'update-balance' })
     updateUserBalance(updateUserBalanceDto: UpdateUserBalanceDto): Promise<Transaction> {
+        console.log('updateUserBalance', updateUserBalanceDto);
         return this.usersService.updateUserBalance(updateUserBalanceDto);
     }
 }

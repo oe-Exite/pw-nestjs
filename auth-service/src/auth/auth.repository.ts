@@ -11,6 +11,16 @@ export class AuthRepository extends Repository<AuthUser> {
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<AuthUser> {
         const { name, email, password } = authCredentialsDto;
 
+        let existedUser = await this.findOne({ name });
+        if (existedUser) {
+            throw new ConflictException(`User with name "${name}" already exists`);
+        }
+
+        existedUser = await this.findOne({ email });
+        if (existedUser) {
+            throw new ConflictException(`User with email "${email}" already exists`);
+        }
+
         const user = new AuthUser();
         user.name = name;
         user.email = email;
@@ -21,11 +31,7 @@ export class AuthRepository extends Repository<AuthUser> {
             await user.save();
         } catch (error) {
             console.log('signUp catch', error.message);
-            if (error.message.includes('Violation of UNIQUE KEY')) {
-                throw new ConflictException('Username already exists');
-            } else {
-                throw new InternalServerErrorException();
-            }
+            throw new InternalServerErrorException();
         }
         return user;
     }

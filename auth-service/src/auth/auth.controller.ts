@@ -16,7 +16,7 @@ export class AuthController {
     }
 
     @MessagePattern({ role: 'auth', cmd: 'signup'})
-    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    async signUp(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
         console.log('signUp', authCredentialsDto);
         return this.authService.signUp(authCredentialsDto);
     }

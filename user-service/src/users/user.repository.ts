@@ -11,8 +11,9 @@ export class UserRepository extends Repository<User> {
     
         if (usersListDto.search) {
             query.andWhere('(user.name LIKE :search)', { search: `%${usersListDto.search}%` });
-            query.andWhere('(user.id != :userId)', { userId: `%${usersListDto.currentUserId}%` });
+            query.andWhere('(user.id != :userId)', { userId: `${usersListDto.currentUserId}` });
         }
+        query.select(['user.id', 'user.name']);
     
         const users = await query.getMany();
         return users;

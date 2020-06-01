@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { map, tap, catchError } from "rxjs/operators";
-import { JwtPayload } from './dto/jwt-payload.interface';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { throwError } from 'rxjs';
-import { UserInfo } from './dto/user-info.interface';
-import { UserLookup } from './dto/user-lookup.interface';
-import { UserLookupRequest } from './dto/user-lookup-request.interface';
+import { UserInfo } from './interfaces/user-info.interface';
+import { UserLookup } from './interfaces/user-lookup.interface';
+import { UserLookupRequest } from './interfaces/user-lookup-request.interface';
 import { Transaction } from './interfaces/transaction.interface';
 import { UpdateUserBalanceDto } from './dto/update-user-balance.dto';
 
@@ -46,7 +46,7 @@ export class UserService {
     }
     
     async updateUserBalance(jwtPayload: JwtPayload, updateUserBalanceDto: UpdateUserBalanceDto): Promise<Transaction> {
-        console.log('send updateUserBalance', jwtPayload);
+        console.log('send updateUserBalance', updateUserBalanceDto);
         const pattern = { role: 'user', cmd: 'update-balance' };
         const payload = { fromUserId: jwtPayload.id, toUserId: updateUserBalanceDto.toUserId, amount: updateUserBalanceDto.amount };
         return this.userMicroService
