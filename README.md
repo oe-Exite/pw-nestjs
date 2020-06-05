@@ -8,6 +8,7 @@ For each project
 ```bash
 $ npm install
 ```
+Also there needs to create following databases for microservices: `pwauth`, `pwtransactions`, `pwusers`. In general databases settings must correspond to connection settings from `typeorm.config.ts` in each microservice project.
 
 ## Running the app
 For each project
